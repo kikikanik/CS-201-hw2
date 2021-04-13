@@ -1,0 +1,89 @@
+---
+title: "R Notebook"
+author: "Kiki Kanik"
+output: html_notebook
+---
+Problem I:
+a.
+```{r}
+?read.table
+```
+```{r}
+rain.df <- read.table("http://www.statprogr.science/data/rnf6080.dat", header = FALSE)
+```
+b. 
+```{r}
+nrow(rain.df)
+ncol(rain.df)
+```
+c. 
+```{r}
+colnames(rain.df)
+```
+d. 
+```{r}
+rain.df[5,7]
+```
+e. 
+```{r}
+rain.df[2,]
+```
+f. 
+```{r}
+names(rain.df) <- c("year","month","day",seq(0,23))
+```
+This function created 3 columns and named them "year" "month" and “day”, and the fourth column refers to the hours in a day
+g. The issue with this histogram is that we cannot have negative rain. We must fix this.
+```{r}
+rain.df$daily <- apply(rain.df[,c(4:27)], 1, function(x) sum(x))
+hist(rain.df[,28], breaks = 25,xlab = "inches of rain", col = "lightblue", border = "blue", main = "daily rainfall")
+```
+h.
+```{r}
+rain.df.fixed <- rain.df
+is.na(rain.df.fixed) <- rain.df.fixed < 0
+hist(rain.df.fixed[,28], breaks = 25, xlab = "inches of rain" ,col = "lightblue", border = "blue", main = "daily rainfall")
+```
+Problem II:
+a. i. So, since we created the vector as c("...") each of the values inside became a char String value, when perhaps they should really be Integers.
+ii. finds the max value in vector1
+iii. sorts the values in vector1
+iv. since these values are strings, it is impossible to find the sum of Strings
+```{r}
+vector1 <- c("5", "12", "7", "32")
+max(vector1)
+sort(vector1)
+sum(vector1)
+```
+b. i. creates vector of char Strings and integers
+ii. error occurs because cannot add two char Strings together this way
+iii. creates a data frame with two ints, and two chars, but allows them to keep their data types
+iv. adds both ints together, this is permissible
+v. creates list with two char Strings, and two ints, but allows them to keep their data types
+vi. Adds the two integers together
+vii. error occurs because cannot add two lists together
+```{r}
+vector2 <- c("5",7,12)
+vector2[2] + vector2[3]
+dataframe3 <- data.frame(z1="5",z2=7,z3=12)
+dataframe3[1,2] + dataframe3[1,3]
+list4 <- list(z1="6", z2=42, z3="49", z4=126)
+list4[[2]]+list4[[4]]
+list4[2]+list4[4]
+```
+Problem III:
+a. 
+```{r}
+?seq
+```
+```{r}
+seq(1, 9673, 372)
+```
+```{r}
+seq(1, 10000, length.out=50)
+```
+b. off the bat, the main difference is between the verbiage times v each. after computing, i is very easy to see the differences: times will make 1 2 3 repeat 3 times, while each makes each value repeat 3 times. Although small difference in word, changes outcome totally.
+```{r}
+rep(1:3, times=3)
+rep(1:3, each=3)
+```
